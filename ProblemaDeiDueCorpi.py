@@ -24,7 +24,7 @@ def accelerations(r1, r2):
 
 # Parametri di simulazione
 dt = 1800  # Passo temporale, 30 minuti
-t_max = 2332800  # Durata della simulazione, in secondi -> 27 giorni
+t_max = 2332800  # Durata della simulazione, in secondi -> 27 giorni (periodo orbitale)
 num_steps = int(t_max / dt)
 
 # Inizializzazione degli array per memorizzare le posizioni
