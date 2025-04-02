@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
 
 # Costanti fisiche
-G = 6.67430e-11  # Costante gravitazionale, m^3 kg^-1 s^-2
+G = 6.67430e-11  # Costante gravitazionale
 M1 = 5.972e24    # Massa della Terra, kg
 M2 = 7.348e22    # Massa della Luna, kg
 r = 3.844e8      # Distanza media tra Terra e Luna, m
@@ -15,7 +15,7 @@ v1_0 = np.array([0, 0])  # Terra inizialmente ferma
 v2_0 = np.array([0, 1022])  # Velocità iniziale della Luna, m/s
 
 # Funzione per calcolare le accelerazioni
-def accelerations(r1, r2):
+def accel(r1, r2):
     r12 = r2 - r1
     dist = np.linalg.norm(r12)
     a1 = G * M2 * r12 / dist**3
@@ -39,12 +39,12 @@ v2 = v2_0
 
 # Simulazione usando il metodo di Verlet
 for i in range(1, num_steps):
-    a1, a2 = accelerations(r1[i-1], r2[i-1])
+    a1, a2 = accel(r1[i-1], r2[i-1])
     v1_half = v1 + 0.5 * a1 * dt
     v2_half = v2 + 0.5 * a2 * dt
     r1[i] = r1[i-1] + v1_half * dt
     r2[i] = r2[i-1] + v2_half * dt
-    a1_new, a2_new = accelerations(r1[i], r2[i])
+    a1_new, a2_new = accel(r1[i], r2[i])
     v1 = v1_half + 0.5 * a1_new * dt
     v2 = v2_half + 0.5 * a2_new * dt
 
@@ -69,7 +69,6 @@ def init():
     return earth, moon, earth_orbit, moon_orbit, Tempo_text
 
 def update(frame):
-    # Calcolo del frame attuale in un ciclo continuo
     idx = frame % num_steps
     earth.set_data(r1[idx, 0], r1[idx, 1])
     moon.set_data(r2[idx, 0], r2[idx, 1])
